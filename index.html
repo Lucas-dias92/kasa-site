@@ -1,546 +1,566 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gastos da Casa — pra onde foi o dinheiro e quem paga quanto</title>
-<meta name="description" content="App de gastos da casa pra quem mora sozinho, casal ou família. Cada um lança, ele organiza e faz o acerto do mês. R$ 9,99 por mês, com 1 mês grátis.">
-<meta property="og:title" content="Gastos da Casa">
-<meta property="og:description" content="Cada um lança, o app faz a conta. 1 mês grátis.">
+<title>Kasa — Cada real no seu lugar</title>
+<meta name="description" content="Kasa é o app de gastos da casa: divisão do mês entre quem mora junto, cartões, parcelas, foto da nota e ainda jogos pra desafiar os amigos. 1 mês grátis.">
+<meta name="theme-color" content="#050a09">
+<meta property="og:title" content="Kasa — Cada real no seu lugar">
+<meta property="og:description" content="Gastos da casa, acerto do mês, cartões e parcelas. E jogos pra desafiar os amigos. Teste 1 mês grátis.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-100 -100 200 200'%3E%3Ccircle r='96' fill='%2325e0a8'/%3E%3Cpath d='M-54 8L0 -46 54 8' stroke='%23fff' stroke-width='17' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='-30' y='8' width='60' height='44' rx='10' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Kasa","applicationCategory":"FinanceApplication","operatingSystem":"Android, iOS, Web","offers":{"@type":"Offer","price":"9.99","priceCurrency":"BRL"},"description":"App de gastos da casa com divisão do mês, cartões, parcelas e jogos."}
+</script>
 <style>
 :root{
-  --navy:#14213D; --navy2:#1F3A5F; --creme:#F7F4EE; --areia:#EDE6DA; --linha:#E4DED3;
-  --laranja:#D9622B; --pessego:#F2A65A; --azul:#1F5FA8; --verde:#1F8A5B;
-  --txt:#14213D; --txt2:#4A5568; --txt3:#5B6B80;
+  --bg:#050a09; --bg2:#0a1512; --card:#0d1c18; --line:rgba(125,255,214,.14);
+  --txt:#ecfff9; --mut:#8fb0a6; --neon:#25e0a8; --neon2:#7dffd6; --neon3:#0fae84; --warn:#ffb648; --pink:#ff5d8f;
+  --disp:'Sora','Poppins','Nunito',system-ui,sans-serif; --body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
   --ease:cubic-bezier(.2,.8,.2,1);
-  --tit:"Rubik",Arial,sans-serif; --fon:"Nunito Sans",Arial,sans-serif;
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--creme);color:var(--txt);font-family:var(--fon);font-size:17px;line-height:1.55;overflow-x:hidden}
-h1,h2,h3{font-family:var(--tit);line-height:1.05;margin:0}
-p{margin:0}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--pessego);outline-offset:3px;border-radius:8px}
-.wrap{width:min(1120px,100% - 32px);margin-inline:auto}
-.eyebrow{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--laranja)}
-section{padding:96px 0}
+html{overflow-x:clip}body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+:focus-visible{outline:2px solid var(--neon2);outline-offset:3px;border-radius:8px}
 
-/* Botões */
-.btn{display:inline-flex;align-items:center;gap:10px;padding:16px 26px;border-radius:999px;font-weight:700;text-decoration:none;font-size:16px;transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .25s;will-change:transform}
-.btn-pri{position:relative;isolation:isolate;background:var(--laranja);color:#FFF8F1;box-shadow:0 12px 30px -10px rgba(217,98,43,.7)}
-.btn-pri::before{content:"";position:absolute;inset:-3px;border-radius:inherit;z-index:-1;background:conic-gradient(from var(--a,0deg),#F2A65A,#D9622B,#FFD9B8,#F2A65A);animation:gira 3.5s linear infinite;opacity:.9}
-.btn-pri::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;background:var(--laranja)}
-@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
-@keyframes gira{to{--a:360deg}}
-.btn-sec{color:var(--creme);border:1px solid rgba(247,244,238,.35)}
-.btn-sec:hover{background:rgba(247,244,238,.08)}
-.btn svg{width:20px;height:20px}
+/* fundo */
+.bg-aurora{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.bg-aurora i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;will-change:transform}
+.bg-aurora i:nth-child(1){width:60vmax;height:60vmax;left:-20vmax;top:-25vmax;background:radial-gradient(circle,#0f7a5c,transparent 65%);animation:drift1 22s ease-in-out infinite alternate}
+.bg-aurora i:nth-child(2){width:50vmax;height:50vmax;right:-20vmax;top:20vh;background:radial-gradient(circle,#0b5f6b,transparent 65%);opacity:.35;animation:drift2 26s ease-in-out infinite alternate}
+.bg-grid{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(125,255,214,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(125,255,214,.045) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 20%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at 50% 20%,#000 20%,transparent 75%)}
+@keyframes drift1{to{transform:translate(12vmax,10vmax) scale(1.15)}}
+@keyframes drift2{to{transform:translate(-10vmax,-8vmax) scale(1.2)}}
 
-/* Topo */
-.topo{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s,box-shadow .3s,transform .4s var(--ease)}
-.topo .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
-.logo{font-family:var(--tit);font-weight:800;font-size:20px;color:var(--creme);text-decoration:none;display:flex;align-items:center;gap:10px}
-.logo i{width:30px;height:30px;border-radius:9px;background:var(--laranja);display:grid;place-items:center;font-style:normal;font-size:15px;color:#fff}
-.topo.solido{background:rgba(20,33,61,.9);backdrop-filter:blur(12px);box-shadow:0 10px 30px -18px rgba(0,0,0,.6)}
-.topo .btn{padding:10px 18px;font-size:14px}
+/* nav */
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(5,10,9,.62);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:300;font-size:24px;letter-spacing:.5px}
+.brand svg{width:34px;height:34px;filter:drop-shadow(0 0 8px rgba(37,224,168,.6))}
 
-/* Hero */
-.hero{position:relative;min-height:100svh;display:flex;align-items:center;color:var(--creme);background:var(--navy);overflow:hidden;padding:120px 0 80px}
-.aurora{position:absolute;inset:-20%;background:
-  radial-gradient(38% 46% at 18% 28%,rgba(242,166,90,.35),transparent 70%),
-  radial-gradient(34% 42% at 82% 18%,rgba(31,95,168,.55),transparent 70%),
-  radial-gradient(44% 48% at 60% 88%,rgba(217,98,43,.28),transparent 70%);
-  filter:blur(60px);animation:drift 18s ease-in-out infinite alternate}
-@keyframes drift{to{transform:translate3d(4%,-3%,0) rotate(8deg) scale(1.1)}}
-.grade{position:absolute;inset:0;background-image:linear-gradient(rgba(247,244,238,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(247,244,238,.05) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(70% 60% at 50% 40%,#000,transparent)}
-.hero .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
-.hero h1{font-size:clamp(42px,6.4vw,84px);font-weight:800;letter-spacing:-.02em;margin:18px 0 20px}
-.hero .sub{font-size:clamp(17px,1.6vw,21px);color:#C9D4E3;max-width:34ch}
-.acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.selos{display:flex;flex-wrap:wrap;gap:18px;margin-top:28px;font-size:14px;color:#AFC0D6}
-.selos span::before{content:"✓";color:var(--pessego);font-weight:800;margin-right:6px}
-[data-split] .w{display:inline-block;opacity:0;filter:blur(10px);transform:translateY(.35em);animation:wIn .8s var(--ease) forwards}
-@keyframes wIn{to{opacity:1;filter:none;transform:none}}
+/* botões */
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:700;font-size:15px;padding:14px 26px;border-radius:999px;border:0;cursor:pointer;color:#03140f;background:linear-gradient(180deg,#7dffd6,#25e0a8);box-shadow:0 0 0 1px rgba(255,255,255,.35) inset,0 10px 30px -8px rgba(37,224,168,.7),0 0 34px -6px rgba(37,224,168,.55);transition:transform .25s var(--ease),box-shadow .25s var(--ease);will-change:transform}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(255,255,255,.5) inset,0 16px 40px -8px rgba(37,224,168,.9),0 0 54px -4px rgba(37,224,168,.75)}
+.btn svg{width:18px;height:18px;transition:transform .25s var(--ease)}
+.btn:hover svg{transform:translateX(4px)}
+.btn.ghost{background:transparent;color:var(--txt);box-shadow:0 0 0 1px var(--line) inset;font-weight:600}
+.btn.ghost:hover{box-shadow:0 0 0 1px var(--neon) inset,0 0 26px -6px rgba(37,224,168,.5)}
+.btn.sm{padding:10px 20px;font-size:14px}
 
-/* Cartão acerto flutuante */
-.acerto{background:var(--creme);color:var(--txt);border-radius:28px;padding:32px;box-shadow:0 40px 90px -30px rgba(0,0,0,.7);transform-style:preserve-3d;transition:transform .5s var(--ease);animation:flutua 6s ease-in-out infinite}
-@keyframes flutua{50%{translate:0 -10px}}
-.acerto .rot{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--txt3)}
-.acerto .quem{font-size:20px;font-weight:700;margin:10px 0 6px}
-.acerto .valor{font-family:var(--tit);font-weight:800;font-size:clamp(46px,5vw,64px);color:var(--laranja);line-height:1;font-variant-numeric:tabular-nums}
-.acerto .nota{font-size:14px;color:var(--txt2);margin-top:12px}
-.acerto .linhas{margin-top:20px;display:grid;gap:8px}
-.acerto .l{display:flex;justify-content:space-between;font-size:14px;padding:10px 12px;border-radius:12px;background:#fff;border:1px solid var(--linha)}
-.acerto .l b{font-variant-numeric:tabular-nums}
+/* tipografia */
+.eyebrow{display:inline-block;font-family:var(--disp);font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--neon2)}
+h1,h2,h3{font-family:var(--disp);line-height:1.08;letter-spacing:-.02em}
+h2{font-size:clamp(30px,5vw,52px);font-weight:800;margin:14px 0 16px}
+h2 em,h1 em{font-style:normal;background:linear-gradient(90deg,var(--neon2),var(--neon));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--mut);font-size:clamp(16px,2vw,19px);max-width:56ch}
+section{padding:clamp(64px,10vw,120px) 0;position:relative}
 
-/* Revelar no scroll */
-.rv{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.rv.in{opacity:1;transform:none}
+/* HERO */
+.hero{overflow:hidden;padding-top:clamp(40px,7vw,90px);padding-bottom:clamp(60px,8vw,110px)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(42px,7.4vw,92px);font-weight:800;margin:18px 0 22px}
+.hero h1 .l{display:block;overflow:hidden;padding-bottom:.08em}
+.hero h1 .l span{display:inline-block;transform:translateY(110%);animation:rise .9s var(--ease) forwards}
+.hero h1 .l:nth-child(2) span{animation-delay:.12s}.hero h1 .l:nth-child(3) span{animation-delay:.24s}
+@keyframes rise{to{transform:none}}
+.hero .fade{opacity:0;transform:translateY(16px);animation:fadeUp .8s var(--ease) forwards}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+.d1{animation-delay:.5s!important}.d2{animation-delay:.65s!important}.d3{animation-delay:.8s!important}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin:30px 0 26px}
+.badges{display:flex;flex-wrap:wrap;gap:10px}
+.badge{font-size:13px;color:var(--neon2);border:1px solid var(--line);background:rgba(37,224,168,.06);padding:7px 14px;border-radius:999px}
+.badge b{color:var(--txt)}
 
-/* Problema */
-.dor h2{font-size:clamp(34px,5vw,64px);max-width:16ch;margin-top:14px}
-.dor .lead{font-size:clamp(18px,1.7vw,22px);color:var(--txt2);max-width:52ch;margin-top:18px}
-.tentativas{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px}
-.tent{position:relative;background:#fff;border:1px solid var(--linha);border-radius:22px;padding:28px;overflow:hidden}
-.tent .n{font-family:var(--tit);font-weight:800;font-size:72px;line-height:1;color:var(--linha)}
-.tent h3{font-size:24px;margin:8px 0 8px}
-.tent p{color:var(--txt2)}
-.tent .risco{position:absolute;left:28px;right:28px;top:62px;height:3px;background:var(--laranja);transform:scaleX(0);transform-origin:left;transition:transform .8s .3s var(--ease)}
-.tent.in .risco{transform:scaleX(1)}
+.stage{position:relative;width:100%;aspect-ratio:1/1.05;display:grid;place-items:center}
+.ring-big{position:absolute;width:min(78%,380px);aspect-ratio:1;filter:drop-shadow(0 0 30px rgba(37,224,168,.65)) drop-shadow(0 20px 30px rgba(0,0,0,.5));animation:floaty 6s ease-in-out infinite}
+.ring-big .arc{stroke-dasharray:566;stroke-dashoffset:566;animation:draw 1.6s var(--ease) .2s forwards}
+.ring-big .roof{stroke-dasharray:120;stroke-dashoffset:120;animation:draw .8s var(--ease) 1s forwards}
+.ring-big .body{transform-box:fill-box;transform-origin:center;animation:pop .7s cubic-bezier(.2,1.6,.4,1) 1.35s both}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{from{opacity:0;transform:scale(.2) translateY(14px)}to{opacity:1;transform:none}}
+@keyframes floaty{50%{transform:translateY(-12px)}}
+.wave{position:absolute;width:min(78%,380px);aspect-ratio:1;border-radius:50%;border:1.5px solid rgba(125,255,214,.5);animation:wave 4s ease-out infinite;opacity:0}
+.wave:nth-child(2){animation-delay:1.3s}.wave:nth-child(3){animation-delay:2.6s}
+@keyframes wave{0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.8);opacity:0}}
+.float-card{position:absolute;white-space:nowrap;background:rgba(13,28,24,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:18px;padding:14px 18px;box-shadow:0 20px 50px -20px #000,0 0 30px -12px rgba(37,224,168,.5);opacity:0;animation:fadeUp .8s var(--ease) forwards}
+.float-card small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.float-card strong{font-family:var(--disp);font-size:22px}
+.fc1{left:-2%;top:12%;animation-delay:1.7s}.fc2{right:-2%;bottom:14%;animation-delay:1.95s}
+.fc1 strong{color:var(--pink)}.fc2 strong{color:var(--neon2)}
+.fc1 .who,.fc2 .who{font-size:13px;color:var(--txt)}
 
-/* Faixa */
-.faixa{background:var(--laranja);color:#FFF8F1;padding:0;overflow:hidden}
-.faixa .trilho{display:flex;gap:56px;width:max-content;padding:26px 0;animation:mq 34s linear infinite;font-family:var(--tit);font-weight:800;font-size:clamp(28px,4vw,48px);white-space:nowrap}
-.faixa .trilho span::after{content:"✦";margin-left:56px;color:var(--pessego)}
-@keyframes mq{to{transform:translateX(-50%)}}
+/* faixa */
+.strip{border-block:1px solid var(--line);background:rgba(10,21,18,.6);overflow:hidden;padding:18px 0}
+.strip-track{display:flex;gap:56px;white-space:nowrap;width:max-content;animation:marq 32s linear infinite;font-family:var(--disp);font-weight:600;color:var(--mut);font-size:15px}
+.strip-track span::before{content:"◆";color:var(--neon);margin-right:56px;font-size:9px;vertical-align:middle}
+@keyframes marq{to{transform:translateX(-50%)}}
 
-/* Passos */
-.passos h2,.recursos h2,.fim h2{font-size:clamp(32px,4.4vw,56px);margin-top:12px}
-.lista-passos{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px;counter-reset:p}
-.passo{background:#fff;border:1px solid var(--linha);border-radius:22px;padding:28px}
-.passo b{font-family:var(--tit);font-size:48px;color:var(--laranja);display:block;line-height:1}
-.passo h3{font-size:22px;margin:14px 0 6px}
-.passo p{color:var(--txt2)}
+/* pra quem é */
+.who-list{margin-top:44px;border-top:1px solid var(--line)}
+.who-row{display:grid;grid-template-columns:110px 1fr 1.2fr;gap:20px;align-items:center;padding:30px 0;border-bottom:1px solid var(--line);transition:padding .35s var(--ease),background .35s}
+.who-row:hover{padding-left:16px;background:linear-gradient(90deg,rgba(37,224,168,.07),transparent)}
+.who-row .n{font-family:var(--disp);font-weight:800;font-size:64px;line-height:1;background:linear-gradient(180deg,var(--neon2),var(--neon3));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
+.who-row h3{font-size:24px}
+.who-row p{color:var(--mut)}
 
-/* Recursos (blocos alternados) */
-.recursos{background:var(--areia)}
-.rec{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:56px 0;border-top:1px solid rgba(20,33,61,.08)}
-.rec:first-of-type{border-top:none}
-.rec:nth-child(even) .txt{order:2}
-.rec .eyebrow{color:var(--azul)}
-.rec h3{font-size:clamp(28px,3.4vw,44px);margin:10px 0 14px}
-.rec p{color:var(--txt2);font-size:18px;max-width:44ch}
-.demo{background:var(--creme);border-radius:24px;padding:24px;box-shadow:0 30px 60px -36px rgba(20,33,61,.5);position:relative;overflow:hidden}
-.spot::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(260px circle at var(--x,50%) var(--y,50%),rgba(242,166,90,.18),transparent 60%);opacity:0;transition:opacity .3s}
-.spot:hover::before{opacity:1}
-.item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-radius:14px;border:1px solid var(--linha);font-size:15px}
-.item + .item{margin-top:10px}
-.item b{font-variant-numeric:tabular-nums}
-.item small{color:var(--txt3)}
-.demo.aovivo .item{opacity:0;transform:translateX(-18px)}
-.demo.aovivo.in .item{animation:entra .6s var(--ease) forwards}
-.demo.aovivo.in .item:nth-child(2){animation-delay:.5s}
-.demo.aovivo.in .item:nth-child(3){animation-delay:1s}
-@keyframes entra{to{opacity:1;transform:none}}
-.pulso{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--verde);margin-bottom:12px}
-.pulso::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--verde);box-shadow:0 0 0 0 rgba(31,138,91,.5);animation:pul 1.8s infinite}
-@keyframes pul{70%{box-shadow:0 0 0 10px rgba(31,138,91,0)}100%{box-shadow:0 0 0 0 rgba(31,138,91,0)}}
-.cupom{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;background:#fff;border:1px dashed #B9B0A2;border-radius:14px;padding:18px;position:relative;overflow:hidden}
-.cupom .scan{position:absolute;left:0;right:0;height:40px;top:-40px;background:linear-gradient(180deg,transparent,rgba(242,166,90,.35),transparent)}
-.demo.in .cupom .scan{animation:scan 2.4s .3s var(--ease) 2}
-@keyframes scan{to{top:100%}}
-.cupom .ok{color:var(--verde);font-weight:700;margin-top:10px;font-family:var(--fon)}
-.barra{height:14px;border-radius:99px;background:var(--linha);overflow:hidden;margin:10px 0 8px}
-.barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pessego),var(--laranja));border-radius:inherit;transition:width 1.4s .2s var(--ease)}
-.fatura{background:var(--navy);color:var(--creme);border-radius:16px;padding:20px}
-.fatura small{color:#8FA3C0;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:12px}
-.rec .fatura p{margin-top:10px;font-size:15px;color:var(--creme)}
+/* dor */
+.pain{background:linear-gradient(180deg,transparent,rgba(10,21,18,.7),transparent)}
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+.attempts{display:grid;gap:14px}
+.attempt{display:flex;gap:16px;align-items:flex-start;padding:18px 20px;border-radius:18px;border:1px solid var(--line);background:rgba(13,28,24,.6)}
+.attempt .x{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:rgba(255,93,143,.12);color:var(--pink);font-weight:700}
+.attempt b{font-family:var(--disp)}
+.attempt span{display:block;color:var(--mut);font-size:15px}
+.big-q{font-family:var(--disp);font-size:clamp(28px,4vw,44px);font-weight:800;line-height:1.15}
 
-/* Grade de extras */
-.extras{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
-.ext{background:#fff;border:1px solid var(--linha);border-radius:22px;padding:26px;transition:transform .45s var(--ease),box-shadow .45s var(--ease);position:relative;overflow:hidden}
-.ext:hover{transform:translateY(-4px);box-shadow:0 24px 40px -28px rgba(20,33,61,.5)}
-.ext h3{font-size:21px;margin-bottom:6px}
-.ext p{color:var(--txt2);font-size:16px}
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;margin-top:46px}
+.tile{position:relative;overflow:hidden;border-radius:26px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(15,34,29,.9),rgba(9,20,17,.9));padding:28px;transition:transform .4s var(--ease),border-color .3s;--mx:50%;--my:0%}
+.tile::before{content:"";position:absolute;inset:0;background:radial-gradient(420px circle at var(--mx) var(--my),rgba(37,224,168,.16),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
+.tile:hover{transform:translateY(-4px);border-color:rgba(125,255,214,.4)}
+.tile:hover::before{opacity:1}
+.tile h3{font-size:22px;margin:10px 0 8px}
+.tile p{color:var(--mut);font-size:15px}
+.tile .tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--neon2);font-weight:700;font-family:var(--disp)}
+.t-a{grid-column:span 4}.t-b{grid-column:span 2}.t-c{grid-column:span 2}.t-d{grid-column:span 2}.t-e{grid-column:span 2}.t-f{grid-column:span 3}.t-g{grid-column:span 3}
+.acerto{margin-top:22px;display:grid;gap:12px}
+.acerto .big{font-family:var(--disp);font-weight:800;font-size:clamp(34px,5vw,54px);color:var(--pink);text-shadow:0 0 28px rgba(255,93,143,.35)}
+.bar{height:10px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;width:0;background:linear-gradient(90deg,var(--neon3),var(--neon2));transition:width 1.4s var(--ease)}
+.reveal.in .bar i{width:var(--w)}
+.row{display:flex;justify-content:space-between;font-size:14px;color:var(--mut)}
+.row b{color:var(--txt);font-family:var(--disp)}
+.feed{margin-top:16px;display:grid;gap:8px}
+.feed div{display:flex;justify-content:space-between;font-size:14px;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.04);opacity:0;transform:translateX(16px);transition:all .6s var(--ease)}
+.reveal.in .feed div{opacity:1;transform:none}
+.reveal.in .feed div:nth-child(2){transition-delay:.15s}.reveal.in .feed div:nth-child(3){transition-delay:.3s}
+.feed b{color:var(--neon2)}
+.receipt{margin-top:16px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;background:#f4f7f2;color:#26312d;padding:14px 16px;border-radius:10px;position:relative;transform:rotate(-1.5deg);box-shadow:0 14px 30px -12px #000}
+.receipt div{display:flex;justify-content:space-between;gap:10px}
+.receipt .ok{color:#0a7a5a;font-weight:700;margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-size:13px;padding:7px 12px;border-radius:999px;border:1px solid var(--line);color:var(--txt);display:inline-flex;gap:8px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%}
+.g{background:#25e0a8;box-shadow:0 0 8px #25e0a8}.o{background:var(--warn);box-shadow:0 0 8px var(--warn)}.r{background:var(--pink);box-shadow:0 0 8px var(--pink)}
+.bars{display:flex;align-items:flex-end;gap:8px;height:110px;margin-top:20px}
+.bars i{flex:1;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--neon2),var(--neon3));height:0;transition:height 1s var(--ease)}
+.bars i.f{background:repeating-linear-gradient(45deg,rgba(125,255,214,.25) 0 6px,rgba(125,255,214,.08) 6px 12px)}
+.reveal.in .bars i{height:var(--h)}
+.meta-line{margin-top:18px}
 
-/* Número grande */
-.grande{background:var(--navy);color:var(--creme);text-align:center;position:relative;overflow:hidden}
-.grande .num{font-family:var(--tit);font-weight:800;font-size:clamp(64px,13vw,168px);color:var(--pessego);line-height:1;margin:14px 0;font-variant-numeric:tabular-nums}
-.grande p{color:#C9D4E3;font-size:19px}
-.grande .quem{font-size:22px;font-weight:700;color:var(--creme)}
+/* JOGOS */
+.games{overflow:hidden}
+.games::before{content:"";position:absolute;inset:8% -10% auto;height:70%;background:radial-gradient(ellipse at 50% 30%,rgba(255,93,143,.10),transparent 60%),radial-gradient(ellipse at 20% 60%,rgba(37,224,168,.12),transparent 55%);pointer-events:none}
+.games-head{text-align:center;max-width:760px;margin:0 auto}
+.games-head .lead{margin-inline:auto}
+.game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+.game{position:relative;border-radius:28px;border:1px solid var(--line);background:linear-gradient(170deg,rgba(15,34,29,.95),rgba(8,16,14,.95));padding:22px 22px 26px;transition:transform .45s var(--ease),border-color .3s,box-shadow .45s;transform-style:preserve-3d}
+.game:hover{border-color:rgba(125,255,214,.45);box-shadow:0 30px 70px -30px rgba(37,224,168,.5)}
+.screen{height:190px;border-radius:18px;margin-bottom:20px;position:relative;overflow:hidden;display:grid;place-items:center;border:1px solid rgba(255,255,255,.06)}
+.game h3{font-size:24px;margin-bottom:6px}
+.game p{color:var(--mut);font-size:15px}
+.game .pill{display:inline-block;margin-top:14px;font-size:12px;font-weight:600;color:var(--neon2);background:rgba(37,224,168,.09);border:1px solid var(--line);padding:5px 12px;border-radius:999px}
+/* quiz */
+.s-quiz{background:linear-gradient(160deg,#241a4f,#0f0a2b)}
+.quiz-q{position:absolute;top:14px;left:16px;right:16px;font-family:var(--disp);font-weight:700;font-size:13px;text-align:center;color:#fff}
+.quiz-a{position:absolute;left:14px;right:14px;bottom:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.quiz-a span{font-size:12px;font-weight:700;padding:10px;border-radius:10px;text-align:center;color:#fff;animation:qpulse 4s ease-in-out infinite}
+.quiz-a span:nth-child(1){background:#e2384f}.quiz-a span:nth-child(2){background:#2f7de1;animation-delay:.4s}.quiz-a span:nth-child(3){background:#e8a70c;animation-delay:.8s}.quiz-a span:nth-child(4){background:#1ea86a;animation-delay:1.2s}
+@keyframes qpulse{50%{filter:brightness(1.35);transform:scale(1.03)}}
+.timer{position:absolute;top:44px;left:50%;transform:translateX(-50%);width:44px;height:44px;border-radius:50%;border:3px solid #ffd44a;display:grid;place-items:center;font-family:var(--disp);font-weight:800;color:#ffd44a;font-size:18px}
+/* tetris */
+.s-tetris{background:linear-gradient(160deg,#0b1a3a,#050b1c);grid-auto-flow:column;gap:18px}
+.tboard{display:grid;grid-template-columns:repeat(6,14px);grid-template-rows:repeat(10,14px);gap:2px;padding:6px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.tboard i{border-radius:3px;background:transparent}
+.tboard i.a{background:#2fd6ff;box-shadow:0 0 8px #2fd6ff}.tboard i.b{background:#ffd44a;box-shadow:0 0 8px #ffd44a}.tboard i.c{background:#ff5d8f;box-shadow:0 0 8px #ff5d8f}.tboard i.d{background:#a06bff;box-shadow:0 0 8px #a06bff}.tboard i.e{background:#25e0a8;box-shadow:0 0 8px #25e0a8}
+.tboard i.fall{animation:fall 3.2s ease-in infinite}
+@keyframes fall{0%{transform:translateY(-90px);opacity:0}15%{opacity:1}70%{transform:none}100%{transform:none}}
+.vs{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--disp);font-weight:800;font-size:13px;color:#fff;background:#e2384f;border-radius:50%;width:34px;height:34px;display:grid;place-items:center;box-shadow:0 0 18px rgba(226,56,79,.7)}
+/* naval */
+.s-naval{background:linear-gradient(160deg,#06283a,#03121c)}
+.sea{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;width:68%}
+.sea i{aspect-ratio:1;border-radius:4px;background:rgba(80,190,255,.12);border:1px solid rgba(120,210,255,.18)}
+.sea i.s{background:#5b7a8c;border-color:#8fb0c2}
+.sea i.h{background:#ff5d3a;box-shadow:0 0 12px #ff5d3a;animation:hit 2.4s ease-in-out infinite}
+.sea i.m::after{content:"";display:block;width:34%;height:34%;margin:33%;border-radius:50%;background:#bfe9ff;opacity:.85}
+@keyframes hit{50%{transform:scale(1.12);filter:brightness(1.5)}}
+.note-games{margin:46px auto 0;max-width:640px;text-align:center;color:var(--mut);font-size:15px;padding:16px 20px;border:1px dashed var(--line);border-radius:18px}
+.note-games b{color:var(--neon2)}
 
-/* Gráficos */
-.pq h2,.graficos h2{font-size:clamp(32px,4.4vw,56px);margin-top:12px}
-.pq{background:var(--areia)}
-.pq .passo{background:var(--creme);border:none}
-.graficos{background:var(--navy);color:var(--creme)}
-.graficos .eyebrow{color:var(--pessego)}
-.graficos .lead{color:#C9D4E3;margin-top:14px;font-size:18px}
-.gr-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:40px}
-.gcard{margin:0;background:var(--creme);color:var(--txt);border-radius:22px;padding:24px}
-.gcard.largo{grid-column:1/-1}
-.gcard figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;margin-bottom:18px}
-.gcard figcaption b{font-family:var(--tit);font-size:19px}
-.gcard figcaption span{font-size:13.5px;color:var(--txt3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.k{display:inline-block;width:12px;height:12px;border-radius:3px}
-.az{background:var(--azul)} .la{background:var(--laranja)}
-.hbars{display:grid;gap:10px}
-.hb{display:grid;grid-template-columns:118px 1fr 72px;align-items:center;gap:10px;font-size:14px}
-.hb em{font-style:normal;font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
-.hb i,.pessoas i{display:block;height:20px;width:0;border-radius:0 4px 4px 0;background:var(--laranja);transition:width 1.2s var(--ease);cursor:pointer}
-.in .hb i,.in .pessoas i{width:var(--w)}
-.cols{display:grid;grid-template-columns:repeat(9,1fr);gap:8px;align-items:end;height:220px;border-bottom:1px solid var(--linha)}
-.c{display:flex;flex-direction:column;align-items:center;justify-content:end;height:100%;gap:6px;font-size:12.5px;color:var(--txt2);position:relative}
-.c span{position:absolute;bottom:-24px}
-.c i{display:block;width:min(24px,80%);height:0;border-radius:4px 4px 0 0;transition:height 1.2s var(--ease);cursor:pointer}
-.in .c i{height:var(--h)}
-.in .c:nth-child(n+7) i{transition-delay:.4s}
-.cols{margin-bottom:28px}
-.pessoas{display:grid;gap:14px}
-.p{display:grid;grid-template-columns:80px 1fr;align-items:center;gap:12px;font-weight:700}
-.p > div{display:grid;gap:4px}
-.pessoas i.az{background:var(--azul)}
-.acertos{display:flex;flex-wrap:wrap;gap:12px 32px;margin-top:20px;padding-top:16px;border-top:1px solid var(--linha)}
-.acertos p{font-size:16px}
-.acertos b{font-family:var(--tit);font-size:24px;color:var(--laranja);margin-left:6px}
-.tip{position:fixed;z-index:80;pointer-events:none;background:var(--navy);color:var(--creme);font-size:13px;font-weight:600;padding:8px 11px;border-radius:10px;box-shadow:0 10px 24px -10px rgba(0,0,0,.6);opacity:0;transform:translate(-50%,-120%);transition:opacity .15s;white-space:nowrap}
-.tip.on{opacity:1}
-@media (max-width:860px){.gr-grid{grid-template-columns:1fr}.hb{grid-template-columns:96px 1fr 64px}}
+/* passos */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:50px;position:relative}
+.steps::before{content:"";position:absolute;left:8%;right:8%;top:32px;height:2px;background:linear-gradient(90deg,transparent,var(--neon),transparent);opacity:.5}
+.step{text-align:center;padding:0 22px}
+.step .num{width:64px;height:64px;border-radius:50%;margin:0 auto 20px;display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:24px;color:#03140f;background:linear-gradient(180deg,var(--neon2),var(--neon));box-shadow:0 0 30px -4px rgba(37,224,168,.7);position:relative}
+.step h3{font-size:21px;margin-bottom:8px}
+.step p{color:var(--mut);font-size:15px}
 
-/* Preço */
-.preco{background:var(--laranja);color:#FFF8F1}
-.preco .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-.preco h2{font-size:clamp(30px,4vw,50px)}
-.preco .eyebrow{color:#FFE3CF}
-.valor-p{white-space:nowrap;font-family:var(--tit);font-weight:800;font-size:clamp(76px,11vw,140px);line-height:1;margin:10px 0}
-.valor-p small{font-size:.22em;font-weight:700}
-.caixa{background:#FFF8F1;color:var(--txt);border-radius:28px;padding:32px}
-.caixa ul{list-style:none;padding:0;margin:0 0 24px;display:grid;gap:14px}
-.caixa li{display:flex;gap:12px;font-size:17px}
-.caixa li::before{content:"";flex:0 0 22px;height:22px;border-radius:50%;background:var(--verde) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/14px no-repeat;margin-top:2px}
-.caixa .btn{width:100%;justify-content:center;background:var(--navy);color:var(--creme)}
-.caixa .btn:hover{background:var(--navy2)}
+/* preço */
+.price-wrap{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:50px;align-items:stretch}
+.plan{border-radius:30px;padding:34px;border:1px solid var(--line);background:rgba(13,28,24,.6)}
+.plan.pro{position:relative;background:linear-gradient(170deg,rgba(18,48,40,.95),rgba(9,22,18,.95));border-color:rgba(125,255,214,.5);box-shadow:0 0 70px -18px rgba(37,224,168,.55)}
+.plan.pro::after{content:"1 mês grátis";position:absolute;top:-14px;right:28px;background:linear-gradient(180deg,#7dffd6,#25e0a8);color:#03140f;font-family:var(--disp);font-weight:800;font-size:12px;padding:6px 14px;border-radius:99px}
+.plan h3{font-size:22px;color:var(--neon2)}
+.plan .price{font-family:var(--disp);font-weight:800;font-size:56px;line-height:1;margin:14px 0 4px}
+.plan .price small{font-size:17px;font-weight:600;color:var(--mut)}
+.plan .sub{color:var(--mut);font-size:14px;margin-bottom:22px}
+.plan ul{list-style:none;display:grid;gap:11px;margin-bottom:28px}
+.plan li{display:flex;gap:11px;font-size:15px}
+.plan li::before{content:"";flex:none;width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--neon) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3.2L15 6.8' stroke='%2303140f' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.plan.free li::before{background-color:rgba(125,255,214,.25)}
+.plan .btn{width:100%;justify-content:center}
 
-/* FAQ */
-.faq h2{font-size:clamp(30px,4vw,48px);margin-bottom:28px}
-details{background:#fff;border:1px solid var(--linha);border-radius:18px;padding:0 22px;margin-bottom:12px}
-summary{cursor:pointer;list-style:none;padding:20px 0;font-weight:700;font-size:18px;display:flex;justify-content:space-between;gap:16px}
+/* faq */
+.faq{max-width:820px;margin:44px auto 0;display:grid;gap:12px}
+details{border:1px solid var(--line);border-radius:18px;background:rgba(13,28,24,.55);padding:0 22px;transition:border-color .3s}
+details[open]{border-color:rgba(125,255,214,.4)}
+summary{cursor:pointer;list-style:none;padding:20px 0;font-family:var(--disp);font-weight:600;font-size:17px;display:flex;justify-content:space-between;gap:16px;align-items:center}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-family:var(--tit);font-size:26px;line-height:1;color:var(--laranja);transition:transform .3s var(--ease)}
+summary::after{content:"+";font-size:26px;color:var(--neon);transition:transform .3s var(--ease);line-height:1}
 details[open] summary::after{transform:rotate(45deg)}
-details p{padding:0 0 20px;color:var(--txt2)}
+details p{color:var(--mut);padding:0 0 20px}
 
-/* CTA final */
-.fim{background:linear-gradient(135deg,var(--navy),var(--navy2));color:var(--creme);position:relative;overflow:hidden;text-align:center}
-.fim h2{max-width:18ch;margin:14px auto 18px}
-.fim p{color:#C9D4E3;font-size:19px;max-width:44ch;margin:0 auto}
-.fim .acoes{justify-content:center}
-.fim .eyebrow{color:var(--pessego)}
-footer{background:#0E1830;color:#8FA3C0;font-size:14px;padding:28px 0}
-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+/* cta final */
+.final{text-align:center}
+.final-box{position:relative;overflow:hidden;border-radius:38px;padding:clamp(48px,8vw,96px) 24px;border:1px solid rgba(125,255,214,.35);background:radial-gradient(ellipse at 50% 0%,rgba(37,224,168,.28),transparent 60%),linear-gradient(180deg,#0d2620,#07110f);box-shadow:0 0 90px -20px rgba(37,224,168,.5)}
+.final-box h2{font-size:clamp(34px,6vw,68px)}
+.final-box .lead{margin:0 auto 34px}
+footer{border-top:1px solid var(--line);padding:36px 0 60px;color:var(--mut);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
 
-.zap-fixo{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border-radius:50%;background:#1FA855;display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(0,0,0,.5);transform:scale(0);transition:transform .45s var(--ease)}
-.zap-fixo.on{transform:scale(1)}
-.zap-fixo svg{width:30px;height:30px}
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.stagger>*{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stagger.in>*{opacity:1;transform:none}
+.stagger.in>*:nth-child(2){transition-delay:.08s}.stagger.in>*:nth-child(3){transition-delay:.16s}.stagger.in>*:nth-child(4){transition-delay:.24s}.stagger.in>*:nth-child(5){transition-delay:.32s}
 
-@media (max-width:860px){
-  section{padding:72px 0}
-  .hero .wrap,.rec,.preco .wrap{grid-template-columns:1fr;gap:36px}
-  .rec:nth-child(even) .txt{order:0}
-  .tentativas,.lista-passos,.extras{grid-template-columns:1fr}
-  .topo .btn span{display:none}
+/* mobile */
+@media (max-width:900px){
+  .hero .wrap{grid-template-columns:1fr}
+  .stage{order:-1;aspect-ratio:1/.8;max-width:420px;margin-inline:auto}
+  .who-row{grid-template-columns:70px 1fr;gap:6px 14px}.who-row p{grid-column:1/-1}.who-row .n{font-size:48px}
+  .pain-grid,.price-wrap{grid-template-columns:1fr}
+  .bento{grid-template-columns:1fr}.tile{grid-column:auto!important}
+  .game-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr;gap:34px}.steps::before{display:none}
+  .fc1{left:0;top:2%}.fc2{right:0;bottom:2%}
+  .stage{width:min(100%,400px)}.float-card{padding:10px 14px}.float-card strong{font-size:18px}
 }
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none!important;transition:none!important}
-  .rv,.demo.aovivo .item{opacity:1!important;transform:none!important}
-  [data-split] .w{opacity:1;filter:none;transform:none}
-  .barra i,.hb i,.pessoas i{width:var(--w)!important}.c i{height:var(--h)!important}
-  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .reveal,.stagger>*,.hero .fade,.float-card,.hero h1 .l span{opacity:1!important;transform:none!important}
+  .ring-big .arc,.ring-big .roof{stroke-dashoffset:0!important}
+  .bar i{width:var(--w)}.bars i{height:var(--h)}
 }
 </style>
 </head>
 <body>
+<div class="bg-aurora" aria-hidden="true"><i></i><i></i></div>
+<div class="bg-grid" aria-hidden="true"></div>
 
-<header class="topo" id="topo">
+<nav>
   <div class="wrap">
-    <a class="logo" href="#inicio"><i>R$</i>Gastos da Casa</a>
-    <a class="btn btn-pri magnet" href="https://wa.me/5511943083363?text=Oi%2C%20quero%20testar%20o%20Gastos%20da%20Casa" target="_blank" rel="noopener"><span>Testar 1 mês grátis</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="brand" href="#topo" aria-label="Kasa">
+      <svg viewBox="-100 -100 200 200" aria-hidden="true"><defs><radialGradient id="ng" cx=".36" cy=".28" r=".95"><stop offset="0" stop-color="#7dffd6"/><stop offset=".4" stop-color="#25e0a8"/><stop offset="1" stop-color="#087a60"/></radialGradient></defs><circle r="94" fill="url(#ng)"/><circle r="90" fill="none" stroke="#c8fff0" stroke-width="9"/><g transform="translate(0,-4) scale(1.7)"><path d="M-32 6L0 -30 32 6" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="-18" y="6" width="36" height="26" rx="6" fill="#fff"/></g></svg>
+      Kasa
+    </a>
+    <a class="btn sm" href="https://wa.me/5511943083363?text=Oi!%20Quero%20testar%20a%20Kasa%201%20m%C3%AAs%20gr%C3%A1tis" target="_blank" rel="noopener"><span>Testar 1 mês grátis</span>
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
   </div>
-</header>
+</nav>
 
-<main id="inicio">
+<main id="topo">
+<!-- HERO -->
 <section class="hero">
-  <div class="aurora" aria-hidden="true"></div>
-  <div class="grade" aria-hidden="true"></div>
   <div class="wrap">
     <div>
-      <p class="eyebrow" style="color:var(--pessego)">Pra quem mora sozinho, casal ou família</p>
-      <h1 data-split>Pra onde foi o dinheiro — e quem paga quanto?</h1>
-      <p class="sub rv">Cada um lança o que gastou. O app organiza por categoria, acompanha cartões e parcelas e, se a casa tiver mais gente, faz o acerto do mês.</p>
-      <div class="acoes rv">
-        <a class="btn btn-pri magnet" href="https://wa.me/5511943083363?text=Oi%2C%20quero%20testar%20o%20Gastos%20da%20Casa" target="_blank" rel="noopener">Quero testar 1 mês grátis</a>
-        <a class="btn btn-sec" href="#como">Ver como funciona</a>
+      <span class="eyebrow fade">Pra quem mora sozinho, casal ou família</span>
+      <h1 aria-label="Cada real no seu lugar."><span class="l"><span>Cada real</span></span><span class="l"><span>no seu <em>lugar.</em></span></span></h1>
+      <p class="lead fade d1">A Kasa organiza os gastos da casa, cuida de cartões e parcelas e faz o acerto do mês entre quem mora junto. E ainda tem jogos pra desafiar os amigos.</p>
+      <div class="cta-row fade d2">
+        <a class="btn" href="https://wa.me/5511943083363?text=Oi!%20Quero%20testar%20a%20Kasa%201%20m%C3%AAs%20gr%C3%A1tis" target="_blank" rel="noopener">Quero testar 1 mês grátis
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+        <a class="btn ghost" href="#recursos">Ver como funciona</a>
       </div>
-      <div class="selos rv"><span>1 mês grátis</span><span>Sem cartão</span><span>R$ 9,99 depois</span></div>
+      <div class="badges fade d3"><span class="badge"><b>1 mês</b> grátis</span><span class="badge">Sem cartão</span><span class="badge">R$ 9,99 depois</span></div>
     </div>
-    <div class="acerto tilt rv" aria-label="Exemplo da tela de acerto do mês">
-      <p class="rot">Acerto entre a casa · outubro</p>
-      <p class="quem">Marina → Rafael</p>
-      <p class="valor">R$ <span data-to="765.82">0,00</span></p>
-      <p class="nota">Já considera a divisão de vocês e conta só as parcelas que saíram no mês.</p>
-      <div class="linhas">
-        <div class="l"><span>Rafael pagou</span><b>R$ 2.184,30</b></div>
-        <div class="l"><span>Marina pagou</span><b>R$ 652,66</b></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pq">
-  <div class="wrap">
-    <p class="eyebrow rv">Pra quem é</p>
-    <h2 class="rv">Serve pra qualquer tamanho de casa</h2>
-    <div class="lista-passos">
-      <div class="passo rv"><b style="color:var(--azul)">1</b><h3>Mora sozinho</h3><p>Gastos, cartões, parcelas e metas num lugar só.</p></div>
-      <div class="passo rv"><b style="color:var(--azul)">2</b><h3>Casal</h3><p>Os dois lançam e o app diz quem deve quanto pra quem.</p></div>
-      <div class="passo rv"><b style="color:var(--azul)">3+</b><h3>Família toda</h3><p>Pais, filhos, avós: cada um com a sua parte das contas.</p></div>
+    <div class="stage" aria-hidden="true">
+      <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+      <svg class="ring-big" viewBox="-100 -100 200 200"><defs>
+        <radialGradient id="hg" cx=".36" cy=".28" r=".95"><stop offset="0" stop-color="#7dffd6"/><stop offset=".35" stop-color="#25e0a8"/><stop offset=".75" stop-color="#0fae84"/><stop offset="1" stop-color="#087a60"/></radialGradient>
+        <linearGradient id="hr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#b5ffe8"/><stop offset="1" stop-color="#5cf5c8"/></linearGradient>
+        <filter id="hs" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#00291f" flood-opacity=".6"/></filter></defs>
+        <circle r="94" fill="url(#hg)"/><ellipse cx="-14" cy="-58" rx="56" ry="22" fill="#fff" opacity=".16"/>
+        <circle class="arc" r="90" fill="none" stroke="url(#hr)" stroke-width="9" stroke-linecap="round" transform="rotate(-90)"/>
+        <g transform="translate(0,-4) scale(1.7)" filter="url(#hs)"><path class="roof" d="M-32 6L0 -30 32 6" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect class="body" x="-18" y="6" width="36" height="26" rx="6" fill="#fff"/></g></svg>
+      <div class="float-card fc1"><small>Acerto de outubro</small><div class="who">Marina → Rafael</div><strong>R$ 290,83</strong></div>
+      <div class="float-card fc2"><small>Meta do mês</small><div class="who">Mercado · 87%</div><strong>R$ 870 de 1.000</strong></div>
     </div>
   </div>
 </section>
 
-<section class="dor">
-  <div class="wrap">
-    <p class="eyebrow rv">Todo dia 30 é a mesma cena</p>
-    <h2 class="rv">"Pra onde foi o dinheiro desse mês?"</h2>
-    <p class="lead rv">Morando sozinho, é a fatura que assusta. Em casa com mais gente, é "quanto eu te devo?" — um pagou o mercado, outro a luz, alguém parcelou a geladeira. Você já tentou:</p>
-    <div class="tentativas">
-      <article class="tent rv"><p class="n">01</p><span class="risco" aria-hidden="true"></span><h3>A planilha</h3><p>Funciona duas semanas. Depois alguém esquece de preencher e ela vira arquivo morto.</p></article>
-      <article class="tent rv"><p class="n">02</p><span class="risco" aria-hidden="true"></span><h3>O grupo do WhatsApp</h3><p>"Paguei a luz", "paguei o mercado". No fim do mês ninguém rola a conversa inteira pra somar.</p></article>
-      <article class="tent rv"><p class="n">03</p><span class="risco" aria-hidden="true"></span><h3>O app do banco</h3><p>Mostra um cartão só. Não junta as contas da casa nem diz quem deve quanto.</p></article>
-    </div>
-  </div>
-</section>
-
-<div class="faixa" aria-hidden="true"><div class="trilho">
-  <span>Feito pra qualquer casa</span><span>Um lança, a casa toda vê</span><span>O mês fecha sem discussão</span><span>Feito pra qualquer casa</span><span>Um lança, a casa toda vê</span><span>O mês fecha sem discussão</span>
+<div class="strip" aria-hidden="true"><div class="strip-track">
+  <span>Acerto do mês</span><span>Cartões e parcelas</span><span>Foto da nota fiscal</span><span>Contas fixas</span><span>Metas que avisam</span><span>Tempo real</span><span>Quizando</span><span>Tetris Duelo</span><span>Batalha Naval</span>
+  <span>Acerto do mês</span><span>Cartões e parcelas</span><span>Foto da nota fiscal</span><span>Contas fixas</span><span>Metas que avisam</span><span>Tempo real</span><span>Quizando</span><span>Tetris Duelo</span><span>Batalha Naval</span>
 </div></div>
 
-<section class="passos" id="como">
-  <div class="wrap">
-    <p class="eyebrow rv">Como funciona</p>
-    <h2 class="rv">Começar leva três passos</h2>
-    <div class="lista-passos">
-      <div class="passo rv"><b>1</b><h3>Recebe o acesso</h3><p>Me chama no WhatsApp e eu te mando o link de cadastro.</p></div>
-      <div class="passo rv"><b>2</b><h3>Diz quem é da casa</h3><p>Só você, o casal ou a família — e a parte de cada um.</p></div>
-      <div class="passo rv"><b>3</b><h3>Lança os gastos</h3><p>Cada um no seu celular. O resto é com o app.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="recursos">
-  <div class="wrap">
-    <div class="rec">
-      <div class="txt rv"><p class="eyebrow">Tempo real</p><h3>Um lança, a casa toda vê</h3><p>Na hora, sem recarregar e sem mandar print. Cada gasto guarda quem pagou.</p></div>
-      <div class="demo aovivo spot rv"><p class="pulso">Sincronizado agora</p>
-        <div class="item"><span><b>Mercado</b> <small>· Marina</small></span><b>R$ 312,40</b></div>
-        <div class="item"><span><b>Conta de luz</b> <small>· Rafael</small></span><b>R$ 189,90</b></div>
-        <div class="item"><span><b>Farmácia</b> <small>· Júlia</small></span><b>R$ 64,00</b></div>
-      </div>
-    </div>
-    <div class="rec">
-      <div class="txt rv"><p class="eyebrow">Menos digitação</p><h3>Tire foto da nota</h3><p>Ele lê produto, unidades, peso e valor, soma tudo e confere com o total impresso. Também lê o QR code e o código de barras.</p></div>
-      <div class="demo spot rv"><div class="cupom"><span class="scan" aria-hidden="true"></span>
-        ARROZ 5KG ............ R$ 27,90<br>LEITE 12 UN .......... R$ 59,88<br>CAFÉ 500G ............ R$ 18,49
-        <p class="ok">✓ Total confere: R$ 106,27</p></div></div>
-    </div>
-    <div class="rec">
-      <div class="txt rv"><p class="eyebrow">Uma vez só</p><h3>Contas fixas se lançam sozinhas</h3><p>Aluguel, internet e condomínio aparecem todo mês — com prazo ou sem fim. Cada conta mostra se está paga, pendente ou atrasada.</p></div>
-      <div class="demo spot rv">
-        <div class="item"><span><b>Aluguel</b> <small>· dia 5</small></span><b style="color:var(--verde)">Pago</b></div>
-        <div class="item"><span><b>Internet</b> <small>· dia 10</small></span><b style="color:var(--laranja)">Pendente</b></div>
-        <div class="item"><span><b>Academia</b> <small>· até dezembro</small></span><b>Fixo com prazo</b></div>
-      </div>
-    </div>
-    <div class="rec">
-      <div class="txt rv"><p class="eyebrow">Cartão de crédito</p><h3>Cai no mês da fatura certa</h3><p>Comprou depois do fechamento? O app já joga pra fatura do mês seguinte, como o banco faz. E parcelado entra uma parcela por mês.</p></div>
-      <div class="demo spot rv">
-        <div class="fatura"><small>Nubank · fecha dia 3</small><p>Compra em 28/09 → fatura de <b>outubro</b></p><p>Compra em 04/10 → fatura de <b>novembro</b></p></div>
-        <div style="margin-top:16px"><p style="font-weight:700">Geladeira · 10x de R$ 329,90</p><div class="barra"><i style="--w:30%"></i></div><p style="font-size:14px;color:var(--txt2)">3 pagas · 7 por vir · este mês conta R$ 329,90</p></div>
-      </div>
-    </div>
-    <div class="rec">
-      <div class="txt rv"><p class="eyebrow">Se quiser</p><h3>Metas que avisam, sem travar</h3><p>Um teto por mês, por categoria ou por cartão. Nada é bloqueado — ele só avisa quando está perto.</p></div>
-      <div class="demo spot rv"><p style="font-weight:700">Mercado · R$ 870 de R$ 1.000</p><div class="barra"><i style="--w:87%"></i></div><p style="font-size:14px;color:#A34717;font-weight:700">87% — perto do limite</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="graficos" id="graficos">
-  <div class="wrap">
-    <p class="eyebrow rv">Como fica no app</p>
-    <h2 class="rv">Seus números, em gráficos que dá pra entender</h2>
-    <p class="lead rv">Exemplo de uma família de 3 em outubro. Passe o dedo ou o mouse nas barras.</p>
-    <div class="gr-grid">
-      <figure class="gcard rv">
-        <figcaption><b>Pra onde foi o dinheiro</b><span>Por categoria · total R$ 4.340</span></figcaption>
-        <div class="hbars">
-          <div class="hb"><span>Moradia</span><i style="--w:100%" data-tip="Moradia: R$ 1.800 (41%)"></i><em>R$ 1.800</em></div>
-          <div class="hb"><span>Mercado</span><i style="--w:69%" data-tip="Mercado: R$ 1.240 (29%)"></i><em>R$ 1.240</em></div>
-          <div class="hb"><span>Contas da casa</span><i style="--w:23%" data-tip="Contas da casa: R$ 420 (10%)"></i><em>R$ 420</em></div>
-          <div class="hb"><span>Transporte</span><i style="--w:21%" data-tip="Transporte: R$ 380 (9%)"></i><em>R$ 380</em></div>
-          <div class="hb"><span>Lazer</span><i style="--w:17%" data-tip="Lazer: R$ 310 (7%)"></i><em>R$ 310</em></div>
-          <div class="hb"><span>Saúde</span><i style="--w:11%" data-tip="Saúde: R$ 190 (4%)"></i><em>R$ 190</em></div>
-        </div>
-      </figure>
-      <figure class="gcard rv">
-        <figcaption><b>Mês a mês</b><span class="leg"><i class="k az"></i>Gasto do mês <i class="k la"></i>Parcelas já marcadas</span></figcaption>
-        <div class="cols">
-          <div class="c"><i class="az" style="--h:89%" data-tip="Maio: R$ 3.980"></i><span>Mai</span></div>
-          <div class="c"><i class="az" style="--h:95%" data-tip="Junho: R$ 4.210"></i><span>Jun</span></div>
-          <div class="c"><i class="az" style="--h:87%" data-tip="Julho: R$ 3.870"></i><span>Jul</span></div>
-          <div class="c"><i class="az" style="--h:100%" data-tip="Agosto: R$ 4.450"></i><span>Ago</span></div>
-          <div class="c"><i class="az" style="--h:93%" data-tip="Setembro: R$ 4.120"></i><span>Set</span></div>
-          <div class="c"><i class="az" style="--h:98%" data-tip="Outubro: R$ 4.340"></i><span><b>Out</b></span></div>
-          <div class="c"><i class="la" style="--h:22%" data-tip="Novembro: R$ 980 já comprometidos em parcelas"></i><span>Nov</span></div>
-          <div class="c"><i class="la" style="--h:17%" data-tip="Dezembro: R$ 760 já comprometidos"></i><span>Dez</span></div>
-          <div class="c"><i class="la" style="--h:12%" data-tip="Janeiro: R$ 540 já comprometidos"></i><span>Jan</span></div>
-        </div>
-      </figure>
-      <figure class="gcard largo rv">
-        <figcaption><b>Quanto cada um pagou × a parte de cada um</b><span class="leg"><i class="k az"></i>Pagou <i class="k la"></i>Parte na divisão (45% · 40% · 15%)</span></figcaption>
-        <div class="pessoas">
-          <div class="p"><span>Rafael</span><div><i class="az" style="--w:100%" data-tip="Rafael pagou R$ 2.410"></i><i class="la" style="--w:81%" data-tip="Parte do Rafael: R$ 1.953"></i></div></div>
-          <div class="p"><span>Marina</span><div><i class="az" style="--w:61%" data-tip="Marina pagou R$ 1.480"></i><i class="la" style="--w:72%" data-tip="Parte da Marina: R$ 1.736"></i></div></div>
-          <div class="p"><span>Júlia</span><div><i class="az" style="--w:19%" data-tip="Júlia pagou R$ 450"></i><i class="la" style="--w:27%" data-tip="Parte da Júlia: R$ 651"></i></div></div>
-        </div>
-        <div class="acertos"><p>Marina → Rafael <b>R$ <span data-to="256">0</span></b></p><p>Júlia → Rafael <b>R$ <span data-to="201">0</span></b></p></div>
-      </figure>
-    </div>
-  </div>
-</section>
-
+<!-- PRA QUEM É -->
 <section>
   <div class="wrap">
-    <p class="eyebrow rv">Do jeito da sua casa</p>
-    <h2 class="rv" style="font-size:clamp(32px,4.4vw,56px);margin-top:12px">Tudo o que vem junto</h2>
-    <div class="extras">
-      <div class="ext spot rv"><h3>Sua divisão</h3><p>Sozinho, meio a meio ou a porcentagem de cada um da família.</p></div>
-      <div class="ext spot rv"><h3>Seus cartões</h3><p>Nubank, Inter, Itaú: cada cartão com ícone e cor próprios, e o detalhe de débito, crédito e parcelado.</p></div>
-      <div class="ext spot rv"><h3>Suas categorias</h3><p>Crie, renomeie e apague as categorias da rotina de vocês.</p></div>
-      <div class="ext spot rv"><h3>Meses passados e futuros</h3><p>Veja o que já foi e o que está comprometido nos próximos meses.</p></div>
-      <div class="ext spot rv"><h3>Celular e computador</h3><p>Instala como app no celular ou usa no navegador. Guardado na nuvem. Trocou de celular, está tudo lá.</p></div>
-      <div class="ext spot rv"><h3>RachaFácil de bônus</h3><p>Viagem ou churrasco: divide a conta do rolê sem mexer nas contas da casa.</p></div>
+    <div class="reveal"><span class="eyebrow">Pra quem é</span>
+    <h2>Serve pra qualquer <em>tamanho de casa</em></h2></div>
+    <div class="who-list stagger reveal">
+      <div class="who-row"><span class="n">1</span><h3>Mora sozinho</h3><p>Gastos, cartões, parcelas e metas num lugar só. Você vê pra onde foi o dinheiro antes da fatura chegar.</p></div>
+      <div class="who-row"><span class="n">2</span><h3>Casal</h3><p>Os dois lançam, cada um no seu celular, e a Kasa diz quem deve quanto pra quem. Sem print, sem discussão.</p></div>
+      <div class="who-row"><span class="n">3+</span><h3>Família toda</h3><p>Pais, filhos, avós: cada um com a sua parte das contas e todo mundo vendo o mesmo resumo.</p></div>
     </div>
   </div>
 </section>
 
-<section class="preco" id="preco">
+<!-- DOR -->
+<section class="pain">
+  <div class="wrap pain-grid">
+    <div class="reveal">
+      <span class="eyebrow">Todo dia 30 é a mesma cena</span>
+      <p class="big-q" style="margin:16px 0 18px">"Pra onde foi o dinheiro desse mês?"</p>
+      <p class="lead">Morando sozinho, é a fatura que assusta. Em casa com mais gente, é "quanto eu te devo?": um pagou o mercado, outro a luz, alguém parcelou a geladeira.</p>
+    </div>
+    <div class="attempts stagger reveal">
+      <div class="attempt"><span class="x">✕</span><div><b>O grupo do WhatsApp</b><span>"Paguei a luz", "paguei o mercado". No fim do mês ninguém rola a conversa inteira pra somar.</span></div></div>
+      <div class="attempt"><span class="x">✕</span><div><b>A planilha</b><span>Começa linda em janeiro e é abandonada em março.</span></div></div>
+      <div class="attempt"><span class="x">✕</span><div><b>A memória</b><span>"Acho que eu paguei mais esse mês." Ninguém tem certeza, todo mundo tem opinião.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RECURSOS -->
+<section id="recursos">
   <div class="wrap">
-    <div class="rv">
-      <p class="eyebrow">Um plano só, sem pegadinha</p>
-      <p class="valor-p">R$ 9,99<small>/mês</small></p>
-      <h2>Por casa, não por pessoa.</h2>
-      <p style="margin-top:12px;font-size:18px;color:#FFE3CF">Vale pra todo mundo que mora nela. Menos de R$ 0,35 por dia.</p>
-    </div>
-    <div class="caixa rv">
-      <ul>
-        <li><span><b>1 mês grátis</b> pra testar, sem cartão</span></li>
-        <li><span>Sem fidelidade: cancela quando quiser</span></li>
-        <li><span>Parou de pagar? Nada do que vocês lançaram é apagado</span></li>
-        <li><span>Suporte direto comigo no WhatsApp</span></li>
-      </ul>
-      <a class="btn magnet" href="https://wa.me/5511943083363?text=Oi%2C%20quero%20testar%20o%20Gastos%20da%20Casa" target="_blank" rel="noopener">Começar meu mês grátis</a>
+    <div class="reveal" style="max-width:720px"><span class="eyebrow">Como fica no app</span>
+    <h2>Tudo que a casa precisa, <em>sem dor de cabeça</em></h2>
+    <p class="lead">Os números que você já anota, agora organizados sozinhos.</p></div>
+
+    <div class="bento">
+      <article class="tile t-a reveal" data-spot>
+        <span class="tag">Acerto entre a casa · Outubro</span>
+        <div class="acerto">
+          <div class="row"><span>Marina → Rafael</span></div>
+          <div class="big">R$ 290,83</div>
+          <div>
+            <div class="row"><span>Rafael pagou</span><b>R$ 2.184,30</b></div><div class="bar"><i style="--w:78%"></i></div>
+          </div>
+          <div>
+            <div class="row"><span>Marina pagou</span><b>R$ 652,66</b></div><div class="bar"><i style="--w:24%"></i></div>
+          </div>
+          <p style="color:var(--mut);font-size:14px">Já considera a divisão de vocês e conta só as parcelas que saíram no mês.</p>
+        </div>
+      </article>
+
+      <article class="tile t-b reveal" data-spot>
+        <span class="tag">Tempo real</span>
+        <h3>Um lança, a casa toda vê</h3>
+        <p>Na hora, sem recarregar e sem mandar print.</p>
+        <div class="feed"><div><span>Mercado · Marina</span><b>R$ 312,40</b></div><div><span>Conta de luz · Rafael</span><b>R$ 189,90</b></div><div><span>Farmácia · Júlia</span><b>R$ 64,00</b></div></div>
+      </article>
+
+      <article class="tile t-c reveal" data-spot>
+        <span class="tag">Menos digitação</span>
+        <h3>Tire foto da nota</h3>
+        <p>Lê produto, unidades, peso e valor, soma tudo e confere. Também lê QR code e código de barras.</p>
+        <div class="receipt"><div><span>ARROZ 5KG</span><span>27,90</span></div><div><span>LEITE 12 UN</span><span>59,88</span></div><div><span>CAFÉ 500G</span><span>18,49</span></div><div class="ok"><span>✓ Total confere</span><span>106,27</span></div></div>
+      </article>
+
+      <article class="tile t-d reveal" data-spot>
+        <span class="tag">Uma vez só</span>
+        <h3>Contas fixas se lançam sozinhas</h3>
+        <p>Aluguel, internet e condomínio aparecem todo mês, com prazo ou sem fim.</p>
+        <div class="chips"><span class="chip"><i class="dot g"></i>Aluguel · dia 5 · Pago</span><span class="chip"><i class="dot o"></i>Internet · dia 10 · Pendente</span><span class="chip"><i class="dot r"></i>Condomínio · Atrasada</span></div>
+      </article>
+
+      <article class="tile t-e reveal" data-spot>
+        <span class="tag">Cartão de crédito</span>
+        <h3>Cai no mês da fatura certa</h3>
+        <p>Comprou depois do fechamento? Vai pra fatura seguinte, como no banco. Parcelado entra uma parcela por mês.</p>
+        <div class="meta-line row"><span>Geladeira · 10x de R$ 329,90</span><b>3 pagas</b></div><div class="bar" style="margin-top:8px"><i style="--w:30%"></i></div>
+      </article>
+
+      <article class="tile t-f reveal" data-spot>
+        <span class="tag">Se quiser</span>
+        <h3>Metas que avisam, sem travar</h3>
+        <p>Um teto por mês, por categoria ou por cartão. Nada é bloqueado: ele só avisa quando está perto.</p>
+        <div class="meta-line"><div class="row"><span>Mercado</span><b>R$ 870 de R$ 1.000</b></div><div class="bar" style="margin-top:8px"><i style="--w:87%"></i></div></div>
+      </article>
+
+      <article class="tile t-g reveal" data-spot>
+        <span class="tag">Gráficos que dá pra entender</span>
+        <h3>Mês a mês, com o que vem por aí</h3>
+        <p>Barras cheias são o que já foi gasto, listradas são parcelas já marcadas pra frente.</p>
+        <div class="bars"><i style="--h:60%"></i><i style="--h:72%"></i><i style="--h:55%"></i><i style="--h:80%"></i><i style="--h:68%"></i><i style="--h:88%"></i><i class="f" style="--h:48%"></i><i class="f" style="--h:36%"></i><i class="f" style="--h:22%"></i></div>
+      </article>
     </div>
   </div>
 </section>
 
-<section class="faq">
-  <div class="wrap" style="max-width:820px">
-    <h2 class="rv">Perguntas rápidas</h2>
-    <details class="rv"><summary>Preciso pôr cartão pra testar?</summary><p>Não. O mês de teste é grátis e sem cartão. Se gostar, a mensalidade é R$ 9,99 por casa.</p></details>
-    <details class="rv"><summary>Se eu cancelar, perco o que lancei?</summary><p>Não. Nada é apagado. Se vocês voltarem, está tudo lá do jeito que ficou.</p></details>
-    <details class="rv"><summary>Tem na loja de apps?</summary><p>Não precisa. No Android, abra o link no Chrome e toque em Instalar. No iPhone, abra no Safari, toque em Compartilhar e depois em Adicionar à Tela de Início. O ícone fica na tela inicial e abre em tela cheia. No computador, é só usar pelo navegador.</p></details>
-    <details class="rv"><summary>Moro sozinho. Serve pra mim?</summary><p>Serve. Você acompanha gastos, cartões, parcelas e metas. O acerto só aparece quando a casa tem mais de uma pessoa.</p></details>
-    <details class="rv"><summary>A divisão tem que ser meio a meio?</summary><p>Não. Cada pessoa da casa tem a sua porcentagem, e o acerto do mês já sai com essa conta.</p></details>
+<!-- JOGOS -->
+<section class="games" id="jogos">
+  <div class="wrap">
+    <div class="games-head reveal">
+      <span class="eyebrow">Novidade</span>
+      <h2>E tem <em>jogos</em> pra desafiar os amigos</h2>
+      <p class="lead">Terminou de lançar as contas? A Kasa também é o lugar de dar aquela pausa. Chama a turma, a família ou o(a) parceiro(a) e descobre quem manda melhor.</p>
+    </div>
+
+    <div class="game-grid stagger reveal">
+      <article class="game" data-tilt>
+        <div class="screen s-quiz" aria-hidden="true">
+          <div class="quiz-q">Qual é a capital da França?</div><div class="timer">12</div>
+          <div class="quiz-a"><span>Lisboa</span><span>Paris</span><span>Roma</span><span>Madri</span></div>
+        </div>
+        <h3>Quizando</h3>
+        <p>Quiz multiplayer com a TV como palco e os celulares como controle. Cada um cria o seu personagem e responde valendo pontos.</p>
+        <span class="pill">Jogue em turma</span>
+      </article>
+
+      <article class="game" data-tilt>
+        <div class="screen s-tetris" aria-hidden="true">
+          <div class="tboard" id="tb1"></div><div class="vs">VS</div><div class="tboard" id="tb2"></div>
+        </div>
+        <h3>Tetris Duelo</h3>
+        <p>Você contra um amigo, cada um no seu tabuleiro. Quem empilhar melhor leva a partida.</p>
+        <span class="pill">Duelo 1 contra 1</span>
+      </article>
+
+      <article class="game" data-tilt>
+        <div class="screen s-naval" aria-hidden="true">
+          <div class="sea" id="sea"></div>
+        </div>
+        <h3>Batalha Naval</h3>
+        <p>Afunde a frota do adversário. Cada um joga no seu celular e a Kasa avisa quando é a sua vez.</p>
+        <span class="pill">Sem estar junto</span>
+      </article>
+    </div>
+
+    <p class="note-games reveal">No plano pago, os jogos ficam <b>sem limite de fichas</b>. Na versão grátis, você joga até 20 fichas por dia.</p>
   </div>
 </section>
 
-<section class="fim">
-  <div class="aurora" aria-hidden="true"></div>
-  <div class="wrap" style="position:relative">
-    <p class="eyebrow rv">30 dias por minha conta</p>
-    <h2 class="rv">Testa um mês inteiro. Se não organizar sua casa, não paga nada.</h2>
-    <p class="rv">Me chama no WhatsApp que eu te mando o acesso hoje.</p>
-    <div class="acoes rv">
-      <a class="btn btn-pri magnet" href="https://wa.me/5511943083363?text=Oi%2C%20quero%20testar%20o%20Gastos%20da%20Casa" target="_blank" rel="noopener">Chamar no WhatsApp · (11) 94308-3363</a>
+<!-- COMO COMEÇAR -->
+<section>
+  <div class="wrap">
+    <div class="reveal" style="text-align:center"><span class="eyebrow">Como começar</span>
+    <h2>Em três passos, <em>a casa organizada</em></h2></div>
+    <div class="steps stagger reveal">
+      <div class="step"><div class="num">1</div><h3>Recebe o acesso</h3><p>Me chama no WhatsApp e eu te mando o link de cadastro.</p></div>
+      <div class="step"><div class="num">2</div><h3>Diz quem é da casa</h3><p>Só você, o casal ou a família, e a parte de cada um.</p></div>
+      <div class="step"><div class="num">3</div><h3>Lança os gastos</h3><p>Cada um no seu celular. O resto é com a Kasa.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PREÇO -->
+<section id="planos">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center"><span class="eyebrow">Planos</span>
+    <h2>Simples e <em>barato</em></h2>
+    <p class="lead" style="margin-inline:auto">Comece com 1 mês grátis, sem cartão. Se gostar, R$ 9,99 por mês. Sem fidelidade.</p></div>
+    <div class="price-wrap stagger reveal">
+      <div class="plan free">
+        <h3>Grátis</h3>
+        <div class="price">R$ 0</div><div class="sub">Pra começar a organizar</div>
+        <ul><li>Lançamento de gastos, divisão e resumo</li><li>Contas fixas</li><li>Histórico do mês atual e do anterior</li><li>Jogos com 20 fichas por dia</li></ul>
+        <a class="btn ghost" href="https://wa.me/5511943083363?text=Oi!%20Quero%20come%C3%A7ar%20com%20a%20Kasa%20gr%C3%A1tis" target="_blank" rel="noopener">Começar grátis</a>
+      </div>
+      <div class="plan pro">
+        <h3>Kasa completo</h3>
+        <div class="price">R$ 9,99 <small>/ mês</small></div><div class="sub">Depois de 1 mês grátis</div>
+        <ul><li>Leitura da nota fiscal por foto, QR code e código de barras</li><li>Metas por mês, categoria e cartão</li><li>Histórico completo e gráficos</li><li>Aviso de conta atrasada com notificação</li><li>Identidade visual dos cartões e apps extras</li><li>Jogos sem limite de fichas</li></ul>
+        <a class="btn" href="https://wa.me/5511943083363?text=Oi!%20Quero%20testar%20a%20Kasa%201%20m%C3%AAs%20gr%C3%A1tis" target="_blank" rel="noopener">Testar 1 mês grátis
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap">
+    <div class="reveal" style="text-align:center"><span class="eyebrow">Dúvidas</span><h2>Perguntas <em>frequentes</em></h2></div>
+    <div class="faq stagger reveal">
+      <details><summary>Preciso instalar alguma coisa?</summary><p>Não passa por loja de aplicativos. Você abre o link no navegador e adiciona à tela inicial: no Android pelo menu do Chrome ("Instalar app") e no iPhone pelo Safari ("Adicionar à Tela de Início"). Fica com ícone próprio e abre em tela cheia.</p></details>
+      <details><summary>Se meu teste acabar, perco o que lancei?</summary><p>Não. Mesmo em teste ou prazo curto, tudo que você já lançou continua salvo.</p></details>
+      <details><summary>Funciona pra quem mora sozinho?</summary><p>Funciona. Você usa gastos, cartões, parcelas e metas, e o acerto entre pessoas simplesmente não aparece.</p></details>
+      <details><summary>Todo mundo da casa vê os mesmos dados?</summary><p>Sim. Cada pessoa lança no seu celular e o resumo é o mesmo para todos, em tempo real.</p></details>
+      <details><summary>Como faço pra começar?</summary><p>Me chama no WhatsApp. Eu te mando o link de cadastro e você já pode testar 1 mês grátis, sem cartão.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="final">
+  <div class="wrap">
+    <div class="final-box reveal">
+      <span class="eyebrow">Bora organizar a casa?</span>
+      <h2>Cada real <em>no seu lugar.</em></h2>
+      <p class="lead">Teste 1 mês grátis, sem cartão. Depois, só R$ 9,99 por mês.</p>
+      <a class="btn" href="https://wa.me/5511943083363?text=Oi!%20Quero%20testar%20a%20Kasa%201%20m%C3%AAs%20gr%C3%A1tis" target="_blank" rel="noopener">Quero testar 1 mês grátis
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
     </div>
   </div>
 </section>
 </main>
 
-<footer><div class="wrap"><span>Gastos da Casa</span><span>R$ 9,99/mês por casa · 1 mês grátis</span></div></footer>
-
-<a class="zap-fixo" id="zap" href="https://wa.me/5511943083363?text=Oi%2C%20quero%20testar%20o%20Gastos%20da%20Casa" target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">
-  <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
-</a>
+<footer><div class="wrap"><span class="brand" style="font-size:20px">Kasa</span><span>Cada real no seu lugar.</span><span>© 2026 Kasa</span></div></footer>
 
 <script>
 (function(){
-  var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // revelar no scroll
+  var els=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.15,rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(e){io.observe(e)});
+  } else els.forEach(function(e){e.classList.add('in')});
 
-  // Título palavra por palavra
-  document.querySelectorAll('[data-split]').forEach(function(el){
-    var palavras = el.textContent.trim().split(/\s+/);
-    el.setAttribute('aria-label', el.textContent.trim());
-    el.innerHTML = palavras.map(function(w, i){ return '<span class="w" aria-hidden="true" style="animation-delay:' + (150 + i * 70) + 'ms">' + w + '&nbsp;</span>'; }).join('');
+  // spotlight nos cards
+  document.querySelectorAll('[data-spot]').forEach(function(t){
+    t.addEventListener('pointermove',function(ev){var r=t.getBoundingClientRect();t.style.setProperty('--mx',(ev.clientX-r.left)+'px');t.style.setProperty('--my',(ev.clientY-r.top)+'px');});
   });
 
-  // Revelar no scroll, com stagger entre irmãos
-  var io = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if (!e.isIntersecting) return;
-      var el = e.target, irmaos = Array.prototype.filter.call(el.parentNode.children, function(c){ return c.classList.contains('rv'); });
-      el.style.transitionDelay = Math.max(0, irmaos.indexOf(el)) * 70 + 'ms';
-      el.classList.add('in');
-      el.querySelectorAll('.barra i').forEach(function(b){ b.style.width = getComputedStyle(b).getPropertyValue('--w'); });
-      io.unobserve(el);
+  // tilt nos jogos (só com mouse)
+  if(window.matchMedia('(hover:hover)').matches && !window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+    document.querySelectorAll('[data-tilt]').forEach(function(c){
+      c.addEventListener('pointermove',function(ev){var r=c.getBoundingClientRect();var x=(ev.clientX-r.left)/r.width-.5,y=(ev.clientY-r.top)/r.height-.5;c.style.transform='perspective(900px) rotateY('+(x*8)+'deg) rotateX('+(-y*8)+'deg) translateY(-4px)';});
+      c.addEventListener('pointerleave',function(){c.style.transform='';});
     });
-  }, {threshold:0, rootMargin:"0px 0px -8% 0px"});
-  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+  }
 
-  // Contador do acerto
-  function brl(n){ return n.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2}); }
-  var cio = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if (!e.isIntersecting) return;
-      var el = e.target, fim = +el.dataset.to;
-      var fmt = String(el.dataset.to).indexOf('.') > -1 ? brl : function(n){ return Math.round(n).toLocaleString('pt-BR'); };
-      if (reduz){ el.textContent = fmt(fim); cio.unobserve(el); return; }
-      var t0 = performance.now();
-      (function f(t){ var p = Math.min((t - t0) / 1600, 1); el.textContent = fmt(fim * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(f); })(t0);
-      cio.unobserve(el);
-    });
-  }, {threshold:.2});
-  document.querySelectorAll('[data-to]').forEach(function(el){ cio.observe(el); });
+  // tabuleiros de tetris
+  function tetris(id,seed){
+    var b=document.getElementById(id);var cells=[];for(var i=0;i<60;i++){var d=document.createElement('i');b.appendChild(d);cells.push(d);}
+    var cols='abcde';var rows=[[0,1,0,1,1,0],[1,1,1,0,1,1],[1,0,1,1,1,1],[1,1,0,1,1,1]];
+    rows.forEach(function(r,ri){r.forEach(function(v,ci){if(v){var c=cells[(6+ri)*6+ci];c.className=cols[(ri*3+ci+seed)%5];}})});
+    [[1,1],[1,2],[2,2],[2,3]].forEach(function(p,k){var c=cells[(2+p[0])*6+p[1]+seed%2];c.className=cols[(k+seed)%5]+' fall';c.style.animationDelay=(k*.08+seed*.5)+'s';});
+  }
+  tetris('tb1',0);tetris('tb2',2);
 
-  // Topo sólido + botão flutuante do WhatsApp
-  var topo = document.getElementById('topo'), zap = document.getElementById('zap');
-  var sentinela = new IntersectionObserver(function(es){
-    var passou = !es[0].isIntersecting;
-    topo.classList.toggle('solido', passou); zap.classList.toggle('on', passou);
-  }, {rootMargin:'-80px 0px 0px 0px'});
-  sentinela.observe(document.querySelector('.hero .acoes'));
-
-  // Dica nas barras dos gráficos (mouse e toque)
-  var tip = document.createElement('div'); tip.className = 'tip'; tip.setAttribute('role','status'); document.body.appendChild(tip);
-  function mostra(el, x, y){ tip.textContent = el.dataset.tip; tip.style.left = x + 'px'; tip.style.top = y + 'px'; tip.classList.add('on'); }
-  document.querySelectorAll('[data-tip]').forEach(function(el){
-    el.addEventListener('pointermove', function(e){ mostra(el, e.clientX, e.clientY); });
-    el.addEventListener('pointerdown', function(e){ mostra(el, e.clientX, e.clientY); });
-    el.addEventListener('pointerleave', function(){ tip.classList.remove('on'); });
-  });
-  addEventListener('scroll', function(){ tip.classList.remove('on'); }, {passive:true});
-
-  if (reduz || !matchMedia('(pointer: fine)').matches) return;
-
-  // Botões magnéticos
-  document.querySelectorAll('.magnet').forEach(function(b){
-    b.addEventListener('pointermove', function(e){ var r = b.getBoundingClientRect(); b.style.transform = 'translate(' + (e.clientX - r.left - r.width / 2) * .22 + 'px,' + (e.clientY - r.top - r.height / 2) * .32 + 'px)'; });
-    b.addEventListener('pointerleave', function(){ b.style.transform = ''; });
-  });
-  // Tilt no cartão do acerto
-  document.querySelectorAll('.tilt').forEach(function(c){
-    c.addEventListener('pointermove', function(e){ var r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; c.style.transform = 'perspective(900px) rotateY(' + x * 12 + 'deg) rotateX(' + (-y * 12) + 'deg)'; });
-    c.addEventListener('pointerleave', function(){ c.style.transform = ''; });
-  });
-  // Spotlight que segue o mouse
-  document.querySelectorAll('.spot').forEach(function(c){
-    c.addEventListener('pointermove', function(e){ var r = c.getBoundingClientRect(); c.style.setProperty('--x', e.clientX - r.left + 'px'); c.style.setProperty('--y', e.clientY - r.top + 'px'); });
-  });
+  // batalha naval
+  var sea=document.getElementById('sea');var map=[
+   0,0,0,0,0,0,0,
+   0,'s','s','s',0,'m',0,
+   0,0,0,0,0,0,0,
+   'm',0,'h','s',0,'s',0,
+   0,0,'s',0,'h',0,0,
+   0,0,'s',0,'s',0,'m',
+   0,0,0,0,0,0,0];
+  map.forEach(function(v){var i=document.createElement('i');if(v)i.className=v;sea.appendChild(i);});
 })();
 </script>
 </body>
